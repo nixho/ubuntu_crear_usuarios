@@ -1,0 +1,10 @@
+# Evitar que los usuarios naveguen por sus correos personales
+acl correo_personal dstdomain .gmail.com .hotmail.com .yahoo.com
+http_access deny correo_personal
+
+# Restringir la navegación entre las 8 y las 10 de la mañana de cualquier día
+acl horario_restringido time MTWHF 08:00-10:00
+http_access deny horario_restringido
+
+# Almacenar logs en un fichero llamado mensajes.log
+access_log /ruta/del/directorio/mensajes.log
