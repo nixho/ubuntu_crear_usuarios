@@ -81,7 +81,7 @@ else
 
 			# Crear el usuario
 			echo -e "\n${Yellow} registrando al usuario ${u} ${endColour}\n"
-			adduser --gecos "" --disabled-password --ingroup "$g" "$u"
+			adduser --force-badname --gecos "" --disabled-password --ingroup "$g" "$u"
 
 			# Establecer la contraseña para el usuario
 			echo "$u:$p" | chpasswd

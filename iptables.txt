@@ -1,0 +1,20 @@
+sudo iptables -F
+
+# Establece la política predeterminada a DROP (denegar todo)
+sudo iptables -P INPUT DROP
+sudo iptables -P FORWARD DROP
+sudo iptables -P OUTPUT ACCEPT  # Permitir todo el tráfico de salida
+
+# Acepta conexiones SSH en el puerto 22
+sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+
+# Permite las conexiones establecidas y relacionadas
+sudo iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+
+# Guarda las reglas para que persistan después del reinicio
+sudo sh -c 'iptables-save > /etc/iptables.rules'
+
+# Asegúrate de cargar las reglas en el arranque
+sudo systemctl enable netfilter-persistent
+sudo netfilter-persistent save
+sudo netfilter-persistent reload
