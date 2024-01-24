@@ -1,32 +1,29 @@
-# FROM php:8.3-fpm-alpine
-FROM php:7.4-fpm-alpine3.13
+# Use the official Alpine Linux image as the base image
+FROM alpine:latest
 
-# Install additional dependencies
-RUN apk add --no-cache --virtual .persistent-deps \
-    libjpeg \
-    libjpeg-turbo \
-    libjpeg-turbo-dev \
-    libpng \
-    libpng-dev \
-    freetype \
-    icu \
-    icu-dev \
-    libxml2-dev \
-    yaml-dev \
-    zip \
-    curl-dev \
-    libxml2-dev \
-    libpng-dev \
-    libjpeg-turbo-dev \
-    libzip-dev \
-    unzip 
-    
-# Install PHP extensions
-RUN docker-php-ext-install zip \
-    && docker-php-ext-configure gd \
-    && docker-php-ext-install pdo_mysql \
-    && docker-php-ext-install mysqli \
-    && docker-php-ext-install soap 
+# Set the working directory
+WORKDIR /app
+
+# Update the package repository and install required packages
+RUN apk update && \
+    apk upgrade && \
+    apk add --no-cache \
+    php8 \
+    php8-fpm \
+    php8-cli \
+    php8-json \
+    php8-zip \
+    php8-mysqli \
+    php8-pdo_mysql \
+    php8-openssl \
+    php8-curl \
+    php8-dom \
+    php8-xml \
+    php8-mbstring \
+    php8-tokenizer \
+    php8-xmlwriter \
+    php8-simplexml \
+    php8-xmlreader
 
 # Installing composer
 RUN curl -sS https://getcomposer.org/installer -o composer-setup.php \
