@@ -42,6 +42,7 @@ RUN mkdir -p /home/tmp && chmod -R 755 /home/tmp \
 
 USER root
 
+
 EXPOSE 9000
 
 WORKDIR /var/www/
