@@ -1,38 +1,50 @@
 # Use the official Alpine Linux image as the base image
 FROM alpine:latest
 
-# Set the working directory
-WORKDIR /app
-
 # Update the package repository and install required packages
 RUN apk update && \
     apk upgrade && \
     apk add --no-cache \
-    php8 \
-    php8-fpm \
-    php8-cli \
-    php8-json \
-    php8-zip \
-    php8-mysqli \
-    php8-pdo_mysql \
-    php8-openssl \
-    php8-curl \
-    php8-dom \
-    php8-xml \
-    php8-mbstring \
-    php8-tokenizer \
-    php8-xmlwriter \
-    php8-simplexml \
-    php8-xmlreader
+    bash \
+    curl \
+    php \
+    php-fpm \
+    php-cli \
+    php-json \
+    php-phar \
+    php-zip \
+    php-mysqli \
+    php-pdo_mysql \
+    php-openssl \
+    php-curl \
+    php-dom \
+    php-xml \
+    php-mbstring \
+    php-tokenizer \
+    php-xmlwriter \
+    php-simplexml \
+    php-xmlreader \
+    php-pear \
+    php-ctype \
+    php-fileinfo \
+    php-gd \    
+    php-exif \
+    php-iconv \
+    php-session 
 
 # Installing composer
 RUN curl -sS https://getcomposer.org/installer -o composer-setup.php \
     && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
     && rm composer-setup.php
 
-RUN mkdir -p /home/tmp && chmod -R 777 /home/tmp
+RUN mkdir -p /home/tmp && chmod -R 755 /home/tmp \
+    && chown -R nobody:nobody /home/tmp && chown -R nobody:nobody /var/log/php82
+
+USER root
 
 EXPOSE 9000
 
+WORKDIR /var/www/
+
 # Start PHP-FPM
-CMD ["php-fpm"]
+CMD [ "php-fpm82","-F" ]
